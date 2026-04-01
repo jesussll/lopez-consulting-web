@@ -25,7 +25,7 @@ export default function App() {
   const services = [
     {
       title: "Páginas web para negocios",
-      text: "Diseño sitios modernos, rápidos y visualmente profesionales para mostrar tus servicios y convertir visitas en consultas.",
+      text: "Diseño sitios modernos, rápidos y profesionales para mostrar tus servicios y convertir visitas en consultas.",
     },
     {
       title: "Excels de control",
@@ -46,26 +46,26 @@ export default function App() {
     "Soluciones pensadas para negocios reales",
     "Atención personalizada",
     "Entrega clara y funcional",
-    "Optimización visual para vender mejor",
     "Imagen digital más sólida",
+    "Comunicación visual más atractiva",
   ];
 
   const faqs = [
     {
       q: "¿Hacés páginas web a medida?",
-      a: "Sí, cada proyecto se adapta a tu negocio, tu estilo y lo que necesitás mostrar o vender.",
+      a: "Sí, cada proyecto se adapta al tipo de negocio, a la imagen de marca y a lo que quieras comunicar.",
     },
     {
       q: "¿Los Excel son personalizados?",
-      a: "Sí, se desarrollan según tu necesidad: ventas, compras, stock, gastos o control general.",
+      a: "Sí, se diseñan según lo que necesites controlar: ventas, compras, stock, gastos o ingresos.",
     },
     {
-      q: "¿También hacés tableros en Power BI?",
-      a: "Sí, puedo crear dashboards de ventas, seguimiento comercial y análisis de indicadores.",
+      q: "¿También hacés dashboards en Power BI?",
+      a: "Sí, puedo desarrollar tableros para ventas, seguimiento comercial y análisis de indicadores.",
     },
     {
-      q: "¿Cómo es el proceso de trabajo?",
-      a: "Primero vemos tu necesidad, luego te propongo una solución y avanzamos con el desarrollo.",
+      q: "¿Cómo se trabaja?",
+      a: "Primero me contás tu idea o necesidad, después te propongo una solución y avanzamos con el desarrollo.",
     },
   ];
 
@@ -75,7 +75,9 @@ export default function App() {
 
   const goTo = (id) => {
     const element = document.getElementById(id);
-    if (element) element.scrollIntoView({ behavior: "smooth" });
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   const handleChange = (e) => {
@@ -219,19 +221,23 @@ export default function App() {
         <div className="process-card">
           <span className="section-label">Proceso</span>
           <h2>Trabajemos de forma simple y clara</h2>
+
           <div className="process-list">
             <div className="process-step">
               <strong>01</strong>
               <p>Me contás tu idea o necesidad</p>
             </div>
+
             <div className="process-step">
               <strong>02</strong>
               <p>Te propongo una solución</p>
             </div>
+
             <div className="process-step">
               <strong>03</strong>
               <p>Desarrollo el proyecto</p>
             </div>
+
             <div className="process-step">
               <strong>04</strong>
               <p>Revisamos y ajustamos detalles</p>
