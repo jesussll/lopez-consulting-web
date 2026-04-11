@@ -3,14 +3,11 @@ import "./App.css";
 
 export default function App() {
   const whatsappNumber = "5491130956786";
-  const whatsappMessage =
-    "Hola, vi la web de López Consulting y quiero consultar por sus servicios.";
-  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
-    whatsappMessage
-  )}`;
-
   const scriptURL =
-    "https://script.google.com/macros/s/AKfycbyRZImK7N-LEMvDBUqqxN92qvb3WBnerxMo6K30Fi32j4Y-J2U3N9Af6vNgF9Hr2lV8/exec";
+    "https://script.google.com/macros/s/AKfycbwGIZ7l0kxL-woAoDo4_VdP5Au6U89eMgO7CeKqBpuvowEMkfjb3Ef6PH6iXN-7WGvd/exec";
+
+  const baseWhatsappMessage =
+    "Hola, vi la web de López Consulting y quiero consultar por sus servicios.";
 
   const [formData, setFormData] = useState({
     nombre: "",
@@ -41,13 +38,59 @@ export default function App() {
     },
   ];
 
-  const advantages = [
-    "Diseño moderno y profesional",
-    "Soluciones pensadas para negocios reales",
-    "Atención personalizada",
-    "Entrega clara y funcional",
-    "Imagen digital más sólida",
-    "Comunicación visual más atractiva",
+  const plans = [
+    {
+      name: "Negocio Standard",
+      badge: "Ideal para empezar",
+      subtitle: "Una base sólida y profesional para negocios que quieren presencia online.",
+      items: [
+        "Landing page profesional",
+        "Botón directo a WhatsApp",
+        "Formulario conectado a Google Sheets",
+        "Diseño adaptable a celular",
+        "Presentación clara de servicios",
+      ],
+      whatsappText:
+        "Hola, quiero consultar por el plan Negocio Standard de López Consulting.",
+    },
+    {
+      name: "Negocio Pro",
+      badge: "Más completo",
+      subtitle: "Pensado para marcas que buscan más presencia, estructura y conversión.",
+      items: [
+        "Web más completa y personalizada",
+        "Secciones extra para servicios o productos",
+        "Mayor impacto visual y comercial",
+        "Base lista para seguir creciendo",
+        "Estructura más premium de marca",
+      ],
+      whatsappText:
+        "Hola, quiero consultar por el plan Negocio Pro de López Consulting.",
+    },
+  ];
+
+  const paymentMethods = [
+    {
+      name: "Transferencias",
+      text: "Consultame los datos bancarios para realizar el pago.",
+      whatsappText:
+        "Hola, quiero consultar los datos para pagar por Transferencia.",
+    },
+    {
+      name: "Efectivo",
+      text: "Consultame disponibilidad y modalidad de pago en efectivo.",
+      whatsappText: "Hola, quiero consultar el pago en Efectivo.",
+    },
+    {
+      name: "Binance",
+      text: "Consultame el pago mediante Binance.",
+      whatsappText: "Hola, quiero consultar el pago por Binance.",
+    },
+    {
+      name: "Zelle",
+      text: "Consultame el pago mediante Zelle.",
+      whatsappText: "Hola, quiero consultar el pago por Zelle.",
+    },
   ];
 
   const faqs = [
@@ -65,12 +108,15 @@ export default function App() {
     },
     {
       q: "¿Cómo se trabaja?",
-      a: "Primero me contás tu idea o necesidad, después te propongo una solución y avanzamos con el desarrollo.",
+      a: "Primero me contás tu necesidad, después te propongo una solución y avanzamos con el desarrollo.",
     },
   ];
 
-  const openWhatsApp = () => {
-    window.open(whatsappUrl, "_blank");
+  const openWhatsApp = (customMessage = baseWhatsappMessage) => {
+    const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+      customMessage
+    )}`;
+    window.open(url, "_blank");
   };
 
   const goTo = (id) => {
@@ -82,7 +128,6 @@ export default function App() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
     setFormData((prev) => ({
       ...prev,
       [name]: value,
@@ -100,7 +145,11 @@ export default function App() {
         headers: {
           "Content-Type": "text/plain;charset=utf-8",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          origen: "Web López Consulting",
+          fecha: new Date().toISOString(),
+        }),
       });
 
       const result = await response.json();
@@ -127,9 +176,16 @@ export default function App() {
   return (
     <div className="site">
       <header className="topbar">
-        <div className="brand">
-          <img src="/logo.png" alt="López Consulting" className="brand-logo" />
-          <div>
+        <div className="brand" onClick={() => goTo("inicio")}>
+          <div className="brand-logo-wrap">
+            <img
+              src="/logo-nuevo.png"
+              alt="López Consulting"
+              className="brand-logo"
+            />
+          </div>
+
+          <div className="brand-text">
             <h2>López Consulting</h2>
             <p>Soluciones digitales para negocios</p>
           </div>
@@ -137,48 +193,65 @@ export default function App() {
 
         <nav className="nav">
           <button onClick={() => goTo("servicios")}>Servicios</button>
-          <button onClick={() => goTo("ventajas")}>Ventajas</button>
+          <button onClick={() => goTo("planes")}>Planes</button>
+          <button onClick={() => goTo("pagos")}>Pagos</button>
           <button onClick={() => goTo("contacto")}>Contacto</button>
         </nav>
       </header>
 
-      <section className="hero">
-        <div className="hero-glow hero-glow-left"></div>
-        <div className="hero-glow hero-glow-right"></div>
+      <section id="inicio" className="hero">
+        <div className="hero-glow hero-glow-1"></div>
+        <div className="hero-glow hero-glow-2"></div>
 
-        <div className="hero-content">
-          <span className="hero-tag">WEB · EXCEL · POWER BI · DISEÑO</span>
+        <div className="hero-grid">
+          <div className="hero-content">
+            <span className="hero-tag">WEB · EXCEL · POWER BI · DISEÑO</span>
 
-          <h1 className="hero-title">
-            Diseño digital
-            <br />
-            <span>que potencia tu negocio</span>
-          </h1>
+            <h1 className="hero-title">
+              Diseño digital
+              <br />
+              <span>que potencia tu negocio</span>
+            </h1>
 
-          <p className="hero-text">
-            Desarrollo páginas web, herramientas de control en Excel, dashboards
-            en Power BI y piezas visuales para que tu negocio se vea mejor,
-            trabaje mejor y venda mejor.
-          </p>
+            <p className="hero-text">
+              Desarrollo páginas web, herramientas de control en Excel,
+              dashboards en Power BI y piezas visuales para que tu negocio se
+              vea mejor, trabaje mejor y venda mejor.
+            </p>
 
-          <div className="hero-info">
-            <div className="hero-pill">✔ Atención personalizada</div>
-            <div className="hero-pill">✔ Soluciones a medida</div>
-            <div className="hero-pill">✔ Imagen profesional</div>
+            <div className="hero-pills">
+              <span>Atención personalizada</span>
+              <span>Soluciones a medida</span>
+              <span>Imagen profesional</span>
+            </div>
+
+            <div className="hero-actions">
+              <button className="btn btn-primary" onClick={() => openWhatsApp()}>
+                Solicitar presupuesto
+              </button>
+              <button
+                className="btn btn-secondary"
+                onClick={() => goTo("servicios")}
+              >
+                Ver servicios
+              </button>
+            </div>
           </div>
 
-          <div className="hero-actions">
-            <button className="btn btn-primary" onClick={openWhatsApp}>
-              Solicitar presupuesto
-            </button>
-            <button className="btn btn-secondary" onClick={() => goTo("servicios")}>
-              Ver servicios
-            </button>
+          <div className="hero-visual">
+            <div className="hero-logo-card">
+              <div className="hero-logo-ring"></div>
+              <img
+                src="/logo-nuevo.png"
+                alt="López Consulting"
+                className="hero-logo"
+              />
+            </div>
           </div>
         </div>
       </section>
 
-      <section id="servicios" className="services-section">
+      <section id="servicios" className="section">
         <div className="section-heading">
           <span className="section-label">Servicios</span>
           <h2>Creamos soluciones digitales a medida</h2>
@@ -188,65 +261,77 @@ export default function App() {
           </p>
         </div>
 
-        <div className="services-panel">
+        <div className="services-grid">
           {services.map((service, index) => (
-            <div className="service-item" key={index}>
-              <div className="service-bullet"></div>
-              <div>
-                <h3>{service.title}</h3>
-                <p>{service.text}</p>
-              </div>
-            </div>
+            <article className="service-card" key={index}>
+              <div className="service-dot"></div>
+              <h3>{service.title}</h3>
+              <p>{service.text}</p>
+            </article>
           ))}
         </div>
       </section>
 
-      <section id="ventajas" className="advantages-section">
+      <section id="planes" className="section">
         <div className="section-heading center">
-          <span className="section-label">Ventajas</span>
-          <h2>Una presencia más moderna y profesional</h2>
+          <span className="section-label">Planes</span>
+          <h2>Elegí la opción ideal para tu negocio</h2>
+          <p>
+            Podemos arrancar con una base profesional o ir por una solución más
+            completa y potente.
+          </p>
         </div>
 
-        <div className="advantages-grid">
-          {advantages.map((item, index) => (
-            <div className="adv-card" key={index}>
-              <span>✦</span>
-              <p>{item}</p>
-            </div>
+        <div className="plans-grid">
+          {plans.map((plan, index) => (
+            <article className="plan-card" key={index}>
+              <span className="plan-badge">{plan.badge}</span>
+              <h3>{plan.name}</h3>
+              <p className="plan-subtitle">{plan.subtitle}</p>
+
+              <ul className="plan-list">
+                {plan.items.map((item, itemIndex) => (
+                  <li key={itemIndex}>{item}</li>
+                ))}
+              </ul>
+
+              <button
+                className="btn btn-primary full"
+                onClick={() => openWhatsApp(plan.whatsappText)}
+              >
+                Consultar este plan
+              </button>
+            </article>
           ))}
         </div>
       </section>
 
-      <section className="process-section">
-        <div className="process-card">
-          <span className="section-label">Proceso</span>
-          <h2>Trabajemos de forma simple y clara</h2>
+      <section id="pagos" className="section">
+        <div className="section-heading center">
+          <span className="section-label">Métodos de pago</span>
+          <h2>Elegí cómo querés pagar</h2>
+          <p>
+            Consultame por WhatsApp el medio que prefieras y te paso los datos.
+          </p>
+        </div>
 
-          <div className="process-list">
-            <div className="process-step">
-              <strong>01</strong>
-              <p>Me contás tu idea o necesidad</p>
-            </div>
-
-            <div className="process-step">
-              <strong>02</strong>
-              <p>Te propongo una solución</p>
-            </div>
-
-            <div className="process-step">
-              <strong>03</strong>
-              <p>Desarrollo el proyecto</p>
-            </div>
-
-            <div className="process-step">
-              <strong>04</strong>
-              <p>Revisamos y ajustamos detalles</p>
-            </div>
-          </div>
+        <div className="payments-grid">
+          {paymentMethods.map((method, index) => (
+            <article className="payment-card" key={index}>
+              <h3>{method.name}</h3>
+              <p>{method.text}</p>
+              <button
+                className="btn btn-secondary full"
+                onClick={() => openWhatsApp(method.whatsappText)}
+              >
+                Consultar pago
+              </button>
+            </article>
+          ))}
         </div>
       </section>
 
-      <section className="faq-section">
+      <section className="section">
         <div className="section-heading">
           <span className="section-label">Preguntas frecuentes</span>
           <h2>Lo que suelen consultarme</h2>
@@ -254,29 +339,41 @@ export default function App() {
 
         <div className="faq-grid">
           {faqs.map((faq, index) => (
-            <div className="faq-card" key={index}>
+            <article className="faq-card" key={index}>
               <h3>{faq.q}</h3>
               <p>{faq.a}</p>
-            </div>
+            </article>
           ))}
         </div>
       </section>
 
-      <section id="contacto" className="contact-section">
+      <section id="contacto" className="section">
         <div className="contact-box">
           <div className="contact-left">
-            <img src="/logo.png" alt="López Consulting" className="contact-logo" />
+            <div className="contact-logo-wrap">
+              <img
+                src="/logo-nuevo.png"
+                alt="López Consulting"
+                className="contact-logo"
+              />
+            </div>
+
             <h3>López Consulting</h3>
             <p>
               Si querés una web, un Excel de control, un dashboard o una pieza
               visual profesional, escribime y lo vemos.
             </p>
 
-            <div className="contact-direct">
-              <a href={whatsappUrl} target="_blank" rel="noreferrer">
-                WhatsApp directo
-              </a>
-            </div>
+            <a
+              className="contact-whatsapp"
+              href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+                baseWhatsappMessage
+              )}`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              WhatsApp directo
+            </a>
           </div>
 
           <form className="contact-form" onSubmit={handleSubmit}>
@@ -316,7 +413,11 @@ export default function App() {
               required
             ></textarea>
 
-            <button type="submit" className="btn btn-primary full" disabled={sending}>
+            <button
+              type="submit"
+              className="btn btn-primary full"
+              disabled={sending}
+            >
               {sending ? "Enviando..." : "Enviar consulta"}
             </button>
 
@@ -330,10 +431,11 @@ export default function App() {
           <h3>López Consulting</h3>
           <p>Webs, Excel, Power BI y diseño para negocios</p>
         </div>
+
         <span>© 2026 López Consulting</span>
       </footer>
 
-      <button className="whatsapp-float" onClick={openWhatsApp}>
+      <button className="whatsapp-float" onClick={() => openWhatsApp()}>
         WhatsApp
       </button>
     </div>
